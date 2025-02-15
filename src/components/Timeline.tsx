@@ -1,6 +1,38 @@
 import { Calendar, DollarSign, Clock, TrendingUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Timeline() {
+
+  const [prediction, setPrediction] = useState<string[]>([]);
+  const [inputData, setInputData] = useState<Record<string, any>>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to get the required data");
+        }
+
+        const data = await response.json();
+        // setPrediction(data.prediction || []);
+        // setInputData(data.input_data || {});
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const timelineData = [
     {
       title: 'Land Preparation',

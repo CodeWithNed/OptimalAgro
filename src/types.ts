@@ -7,6 +7,7 @@ export interface SoilData {
   pH: number;
   rainfall: number;
   landCondition: LandCondition;
+  area: number;
 }
 
 export type LandCondition =

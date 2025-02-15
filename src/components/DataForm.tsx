@@ -16,6 +16,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
     pH: 7,
     rainfall: 1000,
     landCondition: 'paddy',
+    area: selectedArea
   });
 
   const [loading, setLoading] = useState(false);
