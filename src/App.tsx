@@ -7,7 +7,7 @@ import Summary from './components/Summary';
 import CreateAccount from './components/CreateAccount';
 import Timeline from './components/Timeline';
 import CropInfo from './components/CropInfo';
-import Sidebar from './components/Sidebar'; // Import Sidebar
+import Sidebar from './components/Sidebar';
 import { SoilData } from './types';
 
 function App() {

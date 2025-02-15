@@ -56,5 +56,27 @@ def predict():
     print(f"Top-{k} Predicted Crops:", top_k_predictions)
     return jsonify({'prediction': top_k_predictions})
 
+    openai.api_key = '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'
+
+@app.route('/crop_response', methods=['POST'])
+def crop_response():
+    data = request.get_json()
+    user_message = data.get('message', '')
+
+    # Call OpenAI API (using Chat API for example)
+    try:
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are Agri Assistant. Answer as helpfully as possible."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+        reply = completion.choices[0].message.content.strip()
+    except Exception as e:
+        reply = f"Error: {str(e)}"
+    print(response)
+    return jsonify({'response': reply})
+
 if __name__ == '__main__':
     app.run(debug=True)

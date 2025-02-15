@@ -38,8 +38,8 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
       }
 
       const data = await response.json();
-      setPrediction(data.prediction); // Assuming the backend returns a key `prediction`
-      onSubmit(formData); // Optionally call onSubmit if needed
+      setPrediction(data.prediction); 
+      onSubmit(formData); 
     } catch (error) {
       console.error('Error fetching prediction:', error);
       alert('An error occurred while fetching prediction.');

@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
     { icon: <LayoutDashboard size={24} />, label: 'Home', path: '/' },
     { icon: <ShoppingBasket size={24} />, label: 'Crops', path: '/crops' },
     { icon: <ClipboardList size={24} />, label: 'Timeline', path: '/timeline' },
-    { icon: <MessageSquare size={24} />, label: 'Chat Support', path: '/chat-support' },
+    { icon: <MessageSquare size={24} />, label: 'Summary', path: '/summary' },
     { icon: <Settings size={24} />, label: 'Settings', path: '/settings' },
   ];
 

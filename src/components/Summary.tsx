@@ -47,6 +47,7 @@ export default function Summary({ data, area }: SummaryProps) {
           Get the timeline
         </button>
       </div>
+      
     </div>
   );
 }

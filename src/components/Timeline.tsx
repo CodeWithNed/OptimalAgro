@@ -1,4 +1,5 @@
 import { Calendar, DollarSign, Clock, TrendingUp } from 'lucide-react';
+import ChatBot from './chatBot';
 
 export default function Timeline() {
   const timelineData = [
@@ -98,6 +99,7 @@ export default function Timeline() {
           </div>
         </div>
       </div>
+      <ChatBot />
     </div>
   );
 }
