@@ -4,6 +4,7 @@ from flask_cors import CORS
 import numpy as np
 import json
 from openai import OpenAI
+import re
 
 app = Flask(__name__)
 
@@ -29,46 +30,80 @@ temperature = None
 humidity = None
 pH = None
 rainfall = None
+timeline_responses = None
+
+
+def get_text_in_triple_brick(input_string):
+    # Regular expression to match content between triple backticks
+    pattern = r'```(.*?)```'
+
+    # Find content between the backticks
+    matches = re.findall(pattern, input_string, re.DOTALL)
+
+    # Print the extracted content
+    if matches:
+        extracted_content = matches[0]  # Assuming there's only one match
+        print(extracted_content)
+        return extracted_content
+    else:
+        print("No content found between backticks.")
+        return None
 
 
 @app.route('/chat', methods=['POST'])
 def chat():
+    global nitrogen, pH, phosphorous, potassium, temperature, humidity, rainfall, area, land_condition, timeline_responses
     responses = []
 
     # Iterate through each crop and make a separate API call
-    for crop in predictions_of_model_for_input_data:
-        prompt = """{
-  "Selected Area": {
+    for crop_x in predictions_of_model_for_input_data:
+        prompt = """The crop is {crop}
+        {{
+  "Selected Area": {{
     "size": {area} km²,
     "land_condition": {land_condition}
-  },
-  "Soil Composition": {
-    "Nitrogen": ,
-    "Phosphorous": 0,
-    "Potassium": 0
-  },
-  "Environmental Conditions": {
-    "temperature": "25°C",
-    "humidity": "65%",
-    "pH_level": 7,
-    "rainfall": "1000mm"
-  }
-}
+  }},
+  "Soil Composition": {{
+    "Nitrogen": {nitrogen} mg/kg,
+    "Phosphorous": {phosphorous} mg/kg,
+    "Potassium": {potassium} mg/kg
+  }},
+  "Environmental Conditions": {{
+    "temperature": {temperature}°C,
+    "humidity": {humidity}%",
+    "pH_level": {pH},
+    "rainfall": {rainfall}mm
+  }}
+}}
 
-Using this information, provide a cultivation timeline for the given crops. Include costs in Sri Lankan Rupees (LKR) and output the result in JSON format. The JSON should follow this structure:
-
-{
+Using this information, provide a cultivation timeline for the given crop. Timeline should have each of the stages needed for the crop such as land preparation, planting, growth phase, harvest. The cost should be according to the area of the land. Include costs in Sri Lankan Rupees (LKR). Description should include short description of crop specific information and instructions for each crop. Output the result in JSON format. The JSON should follow this structure:
+{{
+{{
   "title": "",
   "duration": "",
   "cost": "",
   "description": ""
-}
+}},
+...
+}}
+"""
 
-Translate all values into Sinhala without altering the keys."""
-        prompt = prompt.format(crop_type=crop)
+        # Apply formatting once, including all variables in the string
+        formatted_prompt = prompt.format(
+            crop=crop_x,
+            area=area,
+            land_condition=land_condition,
+            nitrogen=nitrogen,
+            phosphorous=phosphorous,
+            potassium=potassium,
+            temperature=temperature,
+            humidity=humidity,
+            pH=pH,
+            rainfall=rainfall
+        )
         
         # Prepare the message to send to the OpenAI API
-        messages = [{"role": "user", "content": prompt}]
+        messages = [{"role": "user", "content": formatted_prompt}]
         
         # Make a request to OpenAI's API for each crop
         response = client.chat.completions.create(
@@ -78,11 +113,20 @@ Translate all values into Sinhala without altering the keys."""
         
         # Extract the response text
         crop_response = response.choices[0].message.content
+
+        crop_response = crop_response.replace("\n", "")
+
+        crop_response = get_text_in_triple_brick(crop_response)
+
+        print(crop_response)
+
+        json_object = json.loads(crop_response)
+        print(json_object)
         
         # Append the response to the list of responses
-        responses.append({crop: crop_response})
+        responses.append({crop_x: crop_response})
 
-        print(responses)
+    timeline_responses = responses
 
     # Return the responses as a JSON
     return jsonify({"responses": responses})
@@ -99,7 +143,7 @@ def predict_top_k(json_input, scaler, label_encoder, model, k=4):
     humidity = json_input["humidity"],
     pH = json_input["pH"],
     rainfall = json_input["rainfall"]
-    
+
     # Convert JSON input to numpy array
     input_data = np.array([
         json_input["nitrogen"],
