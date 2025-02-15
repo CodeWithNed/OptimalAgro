@@ -19,7 +19,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
   });
 
   const [loading, setLoading] = useState(false);
-  const [prediction, setPrediction] = useState<string | null>(null);
+  const [prediction, setPrediction] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -178,7 +178,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
       )}
 
       {prediction && (
-        <p className="text-center text-green-600">Prediction: {prediction}</p>
+        <p className="text-center text-green-600">Prediction: {prediction.length > 0 ? prediction.join(", ") : "No predictions yet"}</p>
       )}
 
       <div className="mt-6">
