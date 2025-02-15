@@ -50,13 +50,15 @@ def get_text_in_triple_brick(input_string):
         return None
 
 
-@app.route('/chat', methods=['POST'])
+@app.route('/chat', methods=['GET'])
 def chat():
     global nitrogen, pH, phosphorous, potassium, temperature, humidity, rainfall, area, land_condition, timeline_responses
     responses = []
 
     # Iterate through each crop and make a separate API call
     for crop_x in predictions_of_model_for_input_data:
+        try_turn = 0
+
         prompt = """The crop is {crop}
         {{
   "Selected Area": {{
@@ -78,7 +80,13 @@ def chat():
 
 Using this information, provide a cultivation timeline for the given crop. Timeline should have each of the stages needed for the crop such as land preparation, planting, growth phase, harvest. The cost should be according to the area of the land. Include costs in Sri Lankan Rupees (LKR). Description should include short description of crop specific information and instructions for each crop. Output the result in JSON format. The JSON should follow this structure:
 {{
-{{
+'1': {{
+  "title": "",
+  "duration": "",
+  "cost": "",
+  "description": ""
+}},
+'2': {{
   "title": "",
   "duration": "",
   "cost": "",
@@ -86,6 +94,8 @@ Using this information, provide a cultivation timeline for the given crop. Timel
 }},
 ...
 }}
+
+Provide the output as a valid JSON object. Do not include any explanations, surrounding text, or code blocks. Only return the JSON object.
 """
 
         # Apply formatting once, including all variables in the string
@@ -105,26 +115,32 @@ Using this information, provide a cultivation timeline for the given crop. Timel
         # Prepare the message to send to the OpenAI API
         messages = [{"role": "user", "content": formatted_prompt}]
         
-        # Make a request to OpenAI's API for each crop
-        response = client.chat.completions.create(
-            model="gpt-4o",  # Corrected model name, use the valid model
-            messages=messages
-        )
-        
-        # Extract the response text
-        crop_response = response.choices[0].message.content
+        while try_turn < 3:
+            try:
+                # Make a request to OpenAI's API for each crop
+                response = client.chat.completions.create(
+                    model="gpt-4o",  # Corrected model name, use the valid model
+                    messages=messages
+                )
+                
+                # Extract the response text
+                crop_response = response.choices[0].message.content
 
-        crop_response = crop_response.replace("\n", "")
+                crop_response = crop_response.replace("\n", "")
 
-        crop_response = get_text_in_triple_brick(crop_response)
+                # crop_response = get_text_in_triple_brick(crop_response)
 
-        print(crop_response)
+                print(crop_response)
 
-        json_object = json.loads(crop_response)
-        print(json_object)
-        
-        # Append the response to the list of responses
-        responses.append({crop_x: crop_response})
+                json_object = json.loads(crop_response)
+                print(json_object)
+                
+                # Append the response to the list of responses
+                responses.append({crop_x: crop_response})
+                break
+            except:
+                try_turn += 1
+                pass
 
     timeline_responses = responses
 

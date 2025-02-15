@@ -7,12 +7,13 @@ export default function Timeline() {
   const [inputData, setInputData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [timelineData, setTimeLineData] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:5000/chat", {
-          method: "POST",
+          method: "GET",
           headers: { "Content-Type": "application/json" },
         });
 
@@ -21,6 +22,7 @@ export default function Timeline() {
         }
 
         const data = await response.json();
+        setTimeLineData(data);
         // setPrediction(data.prediction || []);
         // setInputData(data.input_data || {});
       } catch (error: any) {
@@ -33,32 +35,32 @@ export default function Timeline() {
     fetchData();
   }, []);
 
-  const timelineData = [
-    {
-      title: 'Land Preparation',
-      duration: '2 weeks',
-      cost: '$500',
-      description: 'Clear the land, prepare soil, and set up irrigation systems',
-    },
-    {
-      title: 'Planting',
-      duration: '1 week',
-      cost: '$300',
-      description: 'Plant seeds or seedlings according to recommended spacing',
-    },
-    {
-      title: 'Growth Phase',
-      duration: '12 weeks',
-      cost: '$800',
-      description: 'Regular maintenance, fertilization, and pest control',
-    },
-    {
-      title: 'Harvest',
-      duration: '2 weeks',
-      cost: '$400',
-      description: 'Harvest crops at optimal maturity',
-    },
-  ];
+  // const timelineData = [
+  //   {
+  //     title: 'Land Preparation',
+  //     duration: '2 weeks',
+  //     cost: '$500',
+  //     description: 'Clear the land, prepare soil, and set up irrigation systems',
+  //   },
+  //   {
+  //     title: 'Planting',
+  //     duration: '1 week',
+  //     cost: '$300',
+  //     description: 'Plant seeds or seedlings according to recommended spacing',
+  //   },
+  //   {
+  //     title: 'Growth Phase',
+  //     duration: '12 weeks',
+  //     cost: '$800',
+  //     description: 'Regular maintenance, fertilization, and pest control',
+  //   },
+  //   {
+  //     title: 'Harvest',
+  //     duration: '2 weeks',
+  //     cost: '$400',
+  //     description: 'Harvest crops at optimal maturity',
+  //   },
+  // ];
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -93,7 +95,7 @@ export default function Timeline() {
           </div>
 
           <div className="relative">
-            {timelineData.map((item, index) => (
+            {/* {timelineData.map((item, index) => (
               <div key={index} className="mb-8 flex gap-4">
                 <div className="flex flex-col items-center">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
@@ -118,7 +120,8 @@ export default function Timeline() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
+            <p>{timelineData}</p>
           </div>
 
           <div className="mt-8 p-4 bg-yellow-50 rounded-lg">
