@@ -19,7 +19,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
   });
 
   const [loading, setLoading] = useState(false);
-  const [prediction, setPrediction] = useState<string[]>([]);
+  const [prediction, setPrediction] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,39 +64,42 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Nitrogen Ratio</label>
+          <label className="block text-sm font-medium text-gray-700">Nitrogen Ratio (mg per kg)</label>
           <input
             type="number"
             name="nitrogen"
             value={formData.nitrogen}
             onChange={handleChange}
-            step="0.01"
+            min="0"
+            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Phosphorous Ratio</label>
+          <label className="block text-sm font-medium text-gray-700">Phosphorous Ratio Nitrogen Ratio (mg per kg)</label>
           <input
             type="number"
             name="phosphorous"
             value={formData.phosphorous}
             onChange={handleChange}
-            step="0.01"
+            min="0"
+            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Potassium Ratio</label>
+          <label className="block text-sm font-medium text-gray-700">Potassium Ratio Nitrogen Ratio (mg per kg)</label>
           <input
             type="number"
             name="potassium"
             value={formData.potassium}
             onChange={handleChange}
-            step="0.01"
+            min="0"
+            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
@@ -109,7 +112,8 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
             name="temperature"
             value={formData.temperature}
             onChange={handleChange}
-            step="0.1"
+            min="0"
+            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
@@ -178,7 +182,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
       )}
 
       {prediction && (
-        <p className="text-center text-green-600">Prediction: {prediction.length > 0 ? prediction.join(", ") : "No predictions yet"}</p>
+        <p className="text-center text-green-600">Prediction: {prediction}</p>
       )}
 
       <div className="mt-6">

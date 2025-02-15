@@ -41,10 +41,10 @@ export default function Summary({ data, area }: SummaryProps) {
       </div>
       <div className="mt-6">
         <button
-          onClick={() => navigate('/create-account')}
+          onClick={() => navigate('/timeline')}
           className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
         >
-          Create an Account to Track Your Progress
+          Get the timeline
         </button>
       </div>
     </div>

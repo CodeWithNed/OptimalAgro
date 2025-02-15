@@ -38,7 +38,7 @@ function App() {
                   <header className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-2">
                       <MapPin className="h-8 w-8 text-blue-600" />
-                      <h1 className="text-3xl font-bold text-gray-900">Optimal Farm</h1>
+                      <h1 className="text-3xl font-bold text-gray-900">Data-Driven Optimal Crop Selection for Sri Lanka 🇱🇰</h1>
                     </div>
                     <p className="text-gray-600">
                       Select an area on the map and input soil data for analysis
