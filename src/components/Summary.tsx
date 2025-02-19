@@ -1,6 +1,6 @@
 import { SoilData, landConditionLabels } from '../types';
 import { useNavigate } from 'react-router-dom';
-
+  ``
 interface SummaryProps {
   data: SoilData;
   area: number;

@@ -70,8 +70,6 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
             name="nitrogen"
             value={formData.nitrogen}
             onChange={handleChange}
-            min="0"
-            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
@@ -84,8 +82,6 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
             name="phosphorous"
             value={formData.phosphorous}
             onChange={handleChange}
-            min="0"
-            max="100"
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
@@ -98,8 +94,7 @@ export default function DataForm({ onSubmit, selectedArea }: DataFormProps) {
             name="potassium"
             value={formData.potassium}
             onChange={handleChange}
-            min="0"
-            max="100"
+        
             required
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />

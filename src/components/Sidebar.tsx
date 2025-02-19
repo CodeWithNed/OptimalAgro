@@ -22,7 +22,7 @@ const Sidebar: React.FC = () => {
     <div className="w-64 bg-gray-800 text-white min-h-screen p-4">
       <div className="flex items-center gap-2 mb-8">
         <ShoppingBasket className="text-orange-400" size={32} />
-        <span className="text-xl font-bold">Agri Optimal</span>
+        <span className="text-xl font-bold">Cultivate.ai</span>
       </div>
 
       <ul className="space-y-4">

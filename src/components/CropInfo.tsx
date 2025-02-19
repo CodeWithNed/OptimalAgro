@@ -3,6 +3,7 @@ import ChatBot from './components/ChatBot';
 import Auth from './pages/Auth';
 import { Search, Filter } from 'lucide-react';
 
+export default function CropInfo() {
 const mockProducts = [
   {
     id: '1',
@@ -53,3 +54,4 @@ const mockProducts = [
     ingredients: ['Flour', 'Water', 'Salt', 'Sourdough starter'],
   },
 ];
+}
